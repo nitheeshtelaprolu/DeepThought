@@ -1,0 +1,65 @@
+package deppthoughts;
+
+import java.util.concurrent.TimeUnit;
+
+import org.openqa.selenium.By;
+import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.chrome.ChromeDriver;
+import org.openqa.selenium.edge.EdgeDriver;
+
+public class LoginPage {
+
+	public static void main(String[] args) {
+		System.setProperty("webdriver.edge.driver","./Drivers\\msedgedriver.exe");
+		WebDriver driver = new EdgeDriver();
+		//WebDriver driver = new ChromeDriver();
+		driver.get("https://beta.deepthought.education/login");
+		driver.manage().window().maximize();
+		
+		//Login With Valid Credentials
+	    driver.findElement(By.id("username")).sendKeys("nitheesh");
+		driver.findElement(By.xpath("//*[@id=\"password\"]")).sendKeys("Abcd@123");
+		driver.findElement(By.xpath("//*[@id='login']")).click();
+		
+		//Login With Invalid User name Credentials
+		driver.findElement(By.xpath("//*[@id=\"username\"]")).sendKeys("Nitheesh");
+		driver.findElement(By.xpath("//*[@id=\"password\"]")).sendKeys("Abcd@123");
+		driver.findElement(By.xpath("//*[@id='login']")).click();
+		
+		driver.manage().timeouts().implicitlyWait(30, TimeUnit.SECONDS);
+		String errorMsg = driver.findElement(By.xpath("//*[@id=\"login-error-notify\"]")).getText();
+		System.out.println(errorMsg);
+		
+		
+		//Login With Invalid Password Credentials
+		driver.findElement(By.xpath("//*[@id=\"username\"]")).sendKeys("nitheesh");
+		driver.findElement(By.xpath("//*[@id=\"password\"]")).sendKeys("Abcd@1234");
+		driver.findElement(By.xpath("//*[@id='login']")).click();
+				
+		driver.manage().timeouts().implicitlyWait(30, TimeUnit.SECONDS);
+		String errorMsg1 = driver.findElement(By.xpath("//*[@id=\"login-error-notify\"]")).getText();
+		System.out.println(errorMsg1);
+		
+		
+		//Login With Invalid User name & Password Credentials
+	    driver.findElement(By.xpath("//*[@id=\"username\"]")).sendKeys("");
+		driver.findElement(By.xpath("//*[@id=\"password\"]")).sendKeys("");
+		driver.findElement(By.xpath("//*[@id='login']")).click();
+				
+		driver.manage().timeouts().implicitlyWait(30, TimeUnit.SECONDS);
+		String errorMsg2 = driver.findElement(By.xpath("//*[@id=\"login-error-notify\"]")).getText();
+		System.out.println(errorMsg2);
+		
+		//Login With Valid Credentials and to get current page title 
+	    driver.findElement(By.id("username")).sendKeys("nitheesh");
+		driver.findElement(By.id("password")).sendKeys("Abcd@123");
+		driver.findElement(By.xpath("//*[@id='login']")).click();
+		
+		String pgTitle = driver.getTitle();
+		System.out.println(pgTitle);
+				
+		
+
+	}
+
+}
